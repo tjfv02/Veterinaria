@@ -1,0 +1,40 @@
+﻿@model VeterinariaMVC.Models.Veterinario
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<a asp-action="Index" class="btn btn-primary bi bi-arrow-left "> Regresar al Index</a>
+
+
+<h1>Eliminar</h1>
+
+<h3>Estás seguro de eliminar?</h3>
+<div>
+    <h4>Veterinario</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Apellido)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VeterinariaId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VeterinariaId)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="VeterinarioId" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+</div>

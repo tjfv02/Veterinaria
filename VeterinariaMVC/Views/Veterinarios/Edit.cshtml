@@ -1,0 +1,42 @@
+﻿@model VeterinariaMVC.Models.Veterinario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<a asp-action="Index" class="btn btn-primary bi bi-arrow-left "> Regresar al Index</a>
+
+<h1>Editar</h1>
+
+<h4>Veterinario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VeterinarioId" />
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="Apellido" class="control-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="VeterinariaId" class="control-label"></label>
+                <input asp-for="VeterinariaId" class="form-control" />
+                <span asp-validation-for="VeterinariaId" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
