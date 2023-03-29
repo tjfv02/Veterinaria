@@ -47,22 +47,22 @@ namespace VeterinariaMVC
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Cita_fk0");
 
-                entity.HasOne(d => d.Veterinaria).WithMany(p => p.Cita)
-                    .HasForeignKey(d => d.VeterinariaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Cita_fk1");
+                //entity.HasOne(d => d.Veterinaria).WithMany(p => p.Cita)
+                //    .HasForeignKey(d => d.VeterinariaId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Cita_fk1");
 
-                entity.HasOne(d => d.Veterinario).WithMany(p => p.Cita)
-                    .HasForeignKey(d => d.VeterinarioId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Cita_fk2");
+                //entity.HasOne(d => d.Veterinario).WithMany(p => p.Cita)
+                //    .HasForeignKey(d => d.VeterinarioId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("Cita_fk2");
             });
 
             modelBuilder.Entity<Mascota>(entity =>
             {
-                entity.HasKey(e => e.MascotaId).HasName("PK_MASCOTA");
+                entity.HasKey(e => e.Id).HasName("PK_MASCOTA");
 
-                entity.Property(e => e.MascotaId)
+                entity.Property(e => e.Id)
                     .ValueGeneratedNever()
                     .HasColumnName("MascotaID");
                 entity.Property(e => e.Nombre)

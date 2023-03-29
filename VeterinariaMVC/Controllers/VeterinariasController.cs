@@ -7,36 +7,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaMVC;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
     public class VeterinariasController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVeterinariaService _veterinariaService;
 
-        public VeterinariasController(ApplicationDbContext context)
+        public VeterinariasController(IVeterinariaService veterinariaService)
         {
-            _context = context;
+            _veterinariaService= veterinariaService;
         }
 
         // GET: Veterinarias
         public async Task<IActionResult> Index()
         {
-              return _context.Veterinaria != null ? 
-                          View(await _context.Veterinaria.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Veterinaria'  is null.");
+            List<Veterinaria> Lista = new List<Veterinaria>();
+            return View(Lista);
         }
 
         // GET: Veterinarias/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Veterinaria == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var veterinaria = await _context.Veterinaria
-                .FirstOrDefaultAsync(m => m.VeterinariaId == id);
+            var veterinaria = await _veterinariaService.Get(id);
             if (veterinaria == null)
             {
                 return NotFound();
@@ -52,30 +51,29 @@ namespace VeterinariaMVC.Controllers
         }
 
         // POST: Veterinarias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VeterinariaId,Ubicacion,Telefono,Email")] Veterinaria veterinaria)
         {
-            if (ModelState.IsValid)
+            bool respuesta;
+            respuesta = await _veterinariaService.Save(veterinaria);
+
+            if (!respuesta)
             {
-                _context.Add(veterinaria);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
             return View(veterinaria);
         }
 
         // GET: Veterinarias/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Veterinaria == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var veterinaria = await _context.Veterinaria.FindAsync(id);
+            var veterinaria = await _veterinariaService.Get(id);
             if (veterinaria == null)
             {
                 return NotFound();
@@ -84,8 +82,6 @@ namespace VeterinariaMVC.Controllers
         }
 
         // POST: Veterinarias/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("VeterinariaId,Ubicacion,Telefono,Email")] Veterinaria veterinaria)
@@ -95,12 +91,9 @@ namespace VeterinariaMVC.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(veterinaria);
-                    await _context.SaveChangesAsync();
+                    var result = _veterinariaService.Edit(veterinaria);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,21 +106,18 @@ namespace VeterinariaMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
             return View(veterinaria);
         }
 
         // GET: Veterinarias/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Veterinaria == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var veterinaria = await _context.Veterinaria
-                .FirstOrDefaultAsync(m => m.VeterinariaId == id);
+            var veterinaria = await _veterinariaService.Get(id);
             if (veterinaria == null)
             {
                 return NotFound();
@@ -141,23 +131,14 @@ namespace VeterinariaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Veterinaria == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Veterinaria'  is null.");
-            }
-            var veterinaria = await _context.Veterinaria.FindAsync(id);
-            if (veterinaria != null)
-            {
-                _context.Veterinaria.Remove(veterinaria);
-            }
-            
-            await _context.SaveChangesAsync();
+            var respuesta = await _veterinariaService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool VeterinariaExists(int id)
         {
-          return (_context.Veterinaria?.Any(e => e.VeterinariaId == id)).GetValueOrDefault();
+            var veterinaria = _veterinariaService.Get(id);
+            return (veterinaria != null);
         }
     }
 }

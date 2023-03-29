@@ -7,36 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaMVC;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
     public class MascotasController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMascotaService _mascotaService;
+        private readonly IUsuarioService _usuarioService;
 
-        public MascotasController(ApplicationDbContext context)
+        public MascotasController(IMascotaService mascotaService, IUsuarioService usuarioService)
         {
-            _context = context;
+            _mascotaService = mascotaService;
+            _usuarioService = usuarioService;
         }
 
         // GET: Mascotas
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Mascota.Include(m => m.Usuario);
-            return View(await applicationDbContext.ToListAsync());
+            List<Mascota> Lista = await _mascotaService.List();
+            return View(Lista);
         }
 
         // GET: Mascotas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Mascota == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var mascota = await _context.Mascota
-                .Include(m => m.Usuario)
-                .FirstOrDefaultAsync(m => m.MascotaId == id);
+            var mascota = await _mascotaService.Get(id);
             if (mascota == null)
             {
                 return NotFound();
@@ -46,68 +47,63 @@ namespace VeterinariaMVC.Controllers
         }
 
         // GET: Mascotas/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Nombre");
+            List<Usuario> ListaUsuarios = await _usuarioService.List();
+            ViewData["UsuarioId"] = new SelectList(ListaUsuarios, "UsuarioId", "Nombre");
             return View();
         }
 
         // POST: Mascotas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MascotaId,Nombre,Edad,Peso,UsuarioId")] Mascota mascota)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(mascota);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Nombre", mascota.UsuarioId);
+            bool respuesta;
+            List<Usuario> ListaUsuarios = await _usuarioService.List();
+            respuesta = await _mascotaService.Save(mascota);
+            ViewData["UsuarioId"] = new SelectList(ListaUsuarios, "UsuarioId", "Nombre", mascota.UsuarioId);
             return View(mascota);
         }
 
         // GET: Mascotas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Mascota == null)
+            //List<Usuario> ListaUsuarios = await _usuarioService.List();
+
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var mascota = await _context.Mascota.FindAsync(id);
+            var mascota = await _mascotaService.Get(id);
             if (mascota == null)
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId", mascota.UsuarioId);
+            //ViewData["UsuarioId"] = new SelectList(ListaUsuarios, "UsuarioId", "UsuarioId", mascota.UsuarioId);
             return View(mascota);
         }
 
         // POST: Mascotas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MascotaId,Nombre,Edad,Peso,UsuarioId")] Mascota mascota)
         {
-            if (id != mascota.MascotaId)
+            List<Usuario> ListaUsuarios = await _usuarioService.List();
+            if (id != mascota.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(mascota);
-                    await _context.SaveChangesAsync();
+                    var result = await _mascotaService.Edit(mascota);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MascotaExists(mascota.MascotaId))
+                    if (!MascotaExists(mascota.Id))
                     {
                         return NotFound();
                     }
@@ -116,23 +112,20 @@ namespace VeterinariaMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId", mascota.UsuarioId);
+
+            ViewData["UsuarioId"] = new SelectList(ListaUsuarios, "UsuarioId", "UsuarioId", mascota.UsuarioId);
             return View(mascota);
         }
 
         // GET: Mascotas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Mascota == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var mascota = await _context.Mascota
-                .Include(m => m.Usuario)
-                .FirstOrDefaultAsync(m => m.MascotaId == id);
+            var mascota = await _mascotaService.Get(id);
             if (mascota == null)
             {
                 return NotFound();
@@ -146,23 +139,15 @@ namespace VeterinariaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Mascota == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Mascota'  is null.");
-            }
-            var mascota = await _context.Mascota.FindAsync(id);
-            if (mascota != null)
-            {
-                _context.Mascota.Remove(mascota);
-            }
-            
-            await _context.SaveChangesAsync();
+            var respuesta = await _mascotaService.Delete(id);
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool MascotaExists(int id)
         {
-          return (_context.Mascota?.Any(e => e.MascotaId == id)).GetValueOrDefault();
+            var mascota = _mascotaService.Get(id);
+            return (mascota != null);
         }
     }
 }

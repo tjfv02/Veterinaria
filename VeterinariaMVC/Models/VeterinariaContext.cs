@@ -66,9 +66,9 @@ public partial class VeterinariaContext : DbContext
 
         modelBuilder.Entity<Mascota>(entity =>
         {
-            entity.HasKey(e => e.MascotaId).HasName("PK_MASCOTA");
+            entity.HasKey(e => e.Id).HasName("PK_MASCOTA");
 
-            entity.Property(e => e.MascotaId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("MascotaID");
             entity.Property(e => e.Nombre)

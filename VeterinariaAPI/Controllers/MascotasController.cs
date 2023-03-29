@@ -54,7 +54,7 @@ namespace VeterinariaAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMascota(int id, Mascota mascota)
         {
-            if (id != mascota.MascotaId)
+            if (id != mascota.Id)
             {
                 return BadRequest();
             }
@@ -89,21 +89,14 @@ namespace VeterinariaAPI.Controllers
           {
               return Problem("Entity set 'VeterinariaContext.Mascota'  is null.");
           }
-
-            var query =
-               from m in _context.Mascota
-               join u in _context.Usuarios on m.UsuarioId equals u.UsuarioId
-               where m.UsuarioId == mascota.UsuarioId
-               select new { Mascota = m, usuario = u };
             _context.Mascota.Add(mascota);
-
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MascotaExists(mascota.MascotaId))
+                if (MascotaExists(mascota.Id))
                 {
                     return Conflict();
                 }
@@ -113,7 +106,7 @@ namespace VeterinariaAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMascota", new { id = mascota.MascotaId }, mascota);
+            return CreatedAtAction("GetMascota", new { id = mascota.Id }, mascota);
         }
 
         // DELETE: api/Mascotas/5
@@ -138,7 +131,7 @@ namespace VeterinariaAPI.Controllers
 
         private bool MascotaExists(int id)
         {
-            return (_context.Mascota?.Any(e => e.MascotaId == id)).GetValueOrDefault();
+            return (_context.Mascota?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

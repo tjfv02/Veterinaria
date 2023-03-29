@@ -13,5 +13,4 @@ public partial class Veterinario
 
     public int VeterinariaId { get; set; }
 
-    public virtual ICollection<Cita> Cita { get; } = new List<Cita>();
 }

@@ -7,36 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaMVC;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
     public class VeterinariosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVeterinarioService _veterinarioService;
+        private readonly IVeterinariaService _veterinariaService;
 
-        public VeterinariosController(ApplicationDbContext context)
+        public VeterinariosController(IVeterinarioService veterinarioService, IVeterinariaService veterinariaService)
         {
-            _context = context;
+            _veterinarioService = veterinarioService;
+            _veterinariaService = veterinariaService;
         }
 
         // GET: Veterinarios
         public async Task<IActionResult> Index()
         {
-              return _context.Veterinarios != null ? 
-                          View(await _context.Veterinarios.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Veterinarios'  is null.");
+            List<Veterinario> Lista = new List<Veterinario>();
+            return View(Lista);
         }
 
         // GET: Veterinarios/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Veterinarios == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var veterinario = await _context.Veterinarios
-                .FirstOrDefaultAsync(m => m.VeterinarioId == id);
+            var veterinario = await _veterinarioService.Get(id);
             if (veterinario == null)
             {
                 return NotFound();
@@ -46,36 +47,36 @@ namespace VeterinariaMVC.Controllers
         }
 
         // GET: Veterinarios/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            List<Veterinaria> ListaVeterinaria = await _veterinariaService.List();
+            ViewData["VeterinariaId"] = new SelectList(ListaVeterinaria, "VeterinariaId", "VeterinariaId");
             return View();
         }
 
         // POST: Veterinarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VeterinarioId,Nombre,Apellido,VeterinariaId")] Veterinario veterinario)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(veterinario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            bool respuesta;
+            List<Veterinaria> ListaVeterinaria = await _veterinariaService.List();
+
+            respuesta = await _veterinarioService.Save(veterinario);
+            ViewData["VeterinariaId"] = new SelectList(ListaVeterinaria, "VeterinariaId", "VeterinariaId");
+
             return View(veterinario);
         }
 
         // GET: Veterinarios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null || _context.Veterinarios == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var veterinario = await _context.Veterinarios.FindAsync(id);
+            var veterinario = await _veterinarioService.Get(id);
             if (veterinario == null)
             {
                 return NotFound();
@@ -84,8 +85,6 @@ namespace VeterinariaMVC.Controllers
         }
 
         // POST: Veterinarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("VeterinarioId,Nombre,Apellido,VeterinariaId")] Veterinario veterinario)
@@ -94,13 +93,9 @@ namespace VeterinariaMVC.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
                 try
                 {
-                    _context.Update(veterinario);
-                    await _context.SaveChangesAsync();
+                    var result = await _veterinarioService.Edit(veterinario);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -113,21 +108,18 @@ namespace VeterinariaMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
             return View(veterinario);
         }
 
         // GET: Veterinarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null || _context.Veterinarios == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var veterinario = await _context.Veterinarios
-                .FirstOrDefaultAsync(m => m.VeterinarioId == id);
+            var veterinario = await _veterinarioService.Get(id);
             if (veterinario == null)
             {
                 return NotFound();
@@ -141,23 +133,14 @@ namespace VeterinariaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Veterinarios == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Veterinarios'  is null.");
-            }
-            var veterinario = await _context.Veterinarios.FindAsync(id);
-            if (veterinario != null)
-            {
-                _context.Veterinarios.Remove(veterinario);
-            }
-            
-            await _context.SaveChangesAsync();
+            var respuesta = await _veterinarioService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool VeterinarioExists(int id)
         {
-          return (_context.Veterinarios?.Any(e => e.VeterinarioId == id)).GetValueOrDefault();
+            var veterinario = _veterinarioService.Get(id);
+            return (veterinario != null);
         }
     }
 }

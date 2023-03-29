@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VeterinariaMVC;
+using VeterinariaMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
+builder.Services.AddScoped<IMascotaService, MascotaService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IVeterinarioService, VeterinarioService>();
+builder.Services.AddScoped<IVeterinariaService, VeterinariaService>();
+
 
 var app = builder.Build();
 
