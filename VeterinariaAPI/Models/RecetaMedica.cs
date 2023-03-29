@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Veterinaria.Models;
+namespace VeterinariaAPI.Models;
 
-public class RecetaMedica
+public partial class RecetaMedica
 {
     public int RecetaMedicaId { get; set; }
 

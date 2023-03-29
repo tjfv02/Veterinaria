@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Veterinaria.Models;
 
-public partial class Mascotum
+public class Mascota
 {
     public int MascotaId { get; set; }
 

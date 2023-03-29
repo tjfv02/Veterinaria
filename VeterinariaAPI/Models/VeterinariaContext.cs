@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Veterinaria.Models;
+namespace VeterinariaAPI.Models;
 
 public partial class VeterinariaContext : DbContext
 {

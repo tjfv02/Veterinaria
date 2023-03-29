@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Veterinaria.Models;
+namespace Veterinaria.Model;
 
-public class Cita
+public partial class Cita
 {
     public int CitaId { get; set; }
 

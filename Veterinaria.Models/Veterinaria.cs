@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Veterinaria.Models;
 
-public partial class Veterinarium
+public class Veterinaria
 {
     public int VeterinariaId { get; set; }
 
