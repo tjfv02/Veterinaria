@@ -155,7 +155,7 @@ namespace VeterinariaMVC
                 entity.Property(e => e.Telefono)
                     .HasMaxLength(8)
                     .IsUnicode(false);
-                entity.Property(e => e.Usuario1)
+                entity.Property(e => e.NombreUsuario)
                     .HasMaxLength(40)
                     .IsUnicode(false)
                     .HasColumnName("Usuario");

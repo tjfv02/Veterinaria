@@ -25,7 +25,7 @@ namespace VeterinariaMVC.Controllers
         // GET: Veterinarios
         public async Task<IActionResult> Index()
         {
-            List<Veterinario> Lista = new List<Veterinario>();
+            List<Veterinario> Lista = await _veterinarioService.List();
             return View(Lista);
         }
 

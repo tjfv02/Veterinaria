@@ -23,7 +23,7 @@ namespace VeterinariaMVC.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            List<Usuario> Lista = new List<Usuario>();
+            List<Usuario> Lista = await _usuarioService.List();
             return View(Lista);
         }
 
@@ -87,7 +87,6 @@ namespace VeterinariaMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Usuario1,Contraseña,Nombre,Apellido,Telefono,Email")] Usuario usuario)
         {
-            var result;
             if (id != usuario.UsuarioId)
             {
                 return NotFound();
@@ -97,7 +96,7 @@ namespace VeterinariaMVC.Controllers
             {
                 try
                 {
-                    result = await _usuarioService.Edit(usuario);
+                    var result = await _usuarioService.Edit(usuario);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,11 +110,6 @@ namespace VeterinariaMVC.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-
-            if (!result)
-            {
-                return NotFound();
             }
             return View(usuario);
         }

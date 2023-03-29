@@ -58,10 +58,10 @@ public partial class VeterinariaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Cita_fk1");
 
-            entity.HasOne(d => d.Veterinario).WithMany(p => p.Cita)
-                .HasForeignKey(d => d.VeterinarioId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Cita_fk2");
+            //entity.HasOne(d => d.Veterinario).WithMany(p => p.Cita)
+            //    .HasForeignKey(d => d.VeterinarioId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("Cita_fk2");
         });
 
         modelBuilder.Entity<Mascota>(entity =>
@@ -161,7 +161,7 @@ public partial class VeterinariaContext : DbContext
             entity.Property(e => e.Telefono)
                 .HasMaxLength(8)
                 .IsUnicode(false);
-            entity.Property(e => e.Usuario1)
+            entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(40)
                 .IsUnicode(false)
                 .HasColumnName("Usuario");
