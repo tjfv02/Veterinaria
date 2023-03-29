@@ -21,4 +21,6 @@ public partial class Usuario
     [EmailAddress]
     public string Email { get; set; } = null!;
 
+    public List<Mascota> Mascotas { get; set; }
+
 }

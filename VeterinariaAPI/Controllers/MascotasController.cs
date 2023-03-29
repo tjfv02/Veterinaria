@@ -89,7 +89,14 @@ namespace VeterinariaAPI.Controllers
           {
               return Problem("Entity set 'VeterinariaContext.Mascota'  is null.");
           }
+
+            var query =
+               from m in _context.Mascota
+               join u in _context.Usuarios on m.UsuarioId equals u.UsuarioId
+               where m.UsuarioId == mascota.UsuarioId
+               select new { Mascota = m, usuario = u };
             _context.Mascota.Add(mascota);
+
             try
             {
                 await _context.SaveChangesAsync();
