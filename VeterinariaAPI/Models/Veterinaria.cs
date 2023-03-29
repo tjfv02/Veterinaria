@@ -13,5 +13,4 @@ public partial class Veterinaria
 
     public string Email { get; set; } = null!;
 
-    public virtual ICollection<Cita> Cita { get; } = new List<Cita>();
 }

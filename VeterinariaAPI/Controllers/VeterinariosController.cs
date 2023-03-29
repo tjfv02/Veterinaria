@@ -11,55 +11,55 @@ namespace VeterinariaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class MascotasController : ControllerBase
+    public class VeterinariosController : ControllerBase
     {
         private readonly VeterinariaContext _context;
 
-        public MascotasController(VeterinariaContext context)
+        public VeterinariosController(VeterinariaContext context)
         {
             _context = context;
         }
 
-        // GET: api/Mascotas
+        // GET: api/Veterinarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mascota>>> GetMascota()
+        public async Task<ActionResult<IEnumerable<Veterinario>>> GetVeterinarios()
         {
-          if (_context.Mascota == null)
+          if (_context.Veterinarios == null)
           {
               return NotFound();
           }
-            return await _context.Mascota.ToListAsync();
+            return await _context.Veterinarios.ToListAsync();
         }
 
-        // GET: api/Mascotas/5
+        // GET: api/Veterinarios/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Mascota>> GetMascota(int id)
+        public async Task<ActionResult<Veterinario>> GetVeterinario(int id)
         {
-          if (_context.Mascota == null)
+          if (_context.Veterinarios == null)
           {
               return NotFound();
           }
-            var mascota = await _context.Mascota.FindAsync(id);
+            var veterinario = await _context.Veterinarios.FindAsync(id);
 
-            if (mascota == null)
+            if (veterinario == null)
             {
                 return NotFound();
             }
 
-            return mascota;
+            return veterinario;
         }
 
-        // PUT: api/Mascotas/5
+        // PUT: api/Veterinarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMascota(int id, Mascota mascota)
+        public async Task<IActionResult> PutVeterinario(int id, Veterinario veterinario)
         {
-            if (id != mascota.MascotaId)
+            if (id != veterinario.VeterinarioId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(mascota).State = EntityState.Modified;
+            _context.Entry(veterinario).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace VeterinariaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MascotaExists(id))
+                if (!VeterinarioExists(id))
                 {
                     return NotFound();
                 }
@@ -80,23 +80,23 @@ namespace VeterinariaAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Mascotas
+        // POST: api/Veterinarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Mascota>> PostMascota(Mascota mascota)
+        public async Task<ActionResult<Veterinario>> PostVeterinario(Veterinario veterinario)
         {
-          if (_context.Mascota == null)
+          if (_context.Veterinarios == null)
           {
-              return Problem("Entity set 'VeterinariaContext.Mascota'  is null.");
+              return Problem("Entity set 'VeterinariaContext.Veterinarios'  is null.");
           }
-            _context.Mascota.Add(mascota);
+            _context.Veterinarios.Add(veterinario);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MascotaExists(mascota.MascotaId))
+                if (VeterinarioExists(veterinario.VeterinarioId))
                 {
                     return Conflict();
                 }
@@ -106,32 +106,32 @@ namespace VeterinariaAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMascota", new { id = mascota.MascotaId }, mascota);
+            return CreatedAtAction("GetVeterinario", new { id = veterinario.VeterinarioId }, veterinario);
         }
 
-        // DELETE: api/Mascotas/5
+        // DELETE: api/Veterinarios/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMascota(int id)
+        public async Task<IActionResult> DeleteVeterinario(int id)
         {
-            if (_context.Mascota == null)
+            if (_context.Veterinarios == null)
             {
                 return NotFound();
             }
-            var mascota = await _context.Mascota.FindAsync(id);
-            if (mascota == null)
+            var veterinario = await _context.Veterinarios.FindAsync(id);
+            if (veterinario == null)
             {
                 return NotFound();
             }
 
-            _context.Mascota.Remove(mascota);
+            _context.Veterinarios.Remove(veterinario);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MascotaExists(int id)
+        private bool VeterinarioExists(int id)
         {
-            return (_context.Mascota?.Any(e => e.MascotaId == id)).GetValueOrDefault();
+            return (_context.Veterinarios?.Any(e => e.VeterinarioId == id)).GetValueOrDefault();
         }
     }
 }

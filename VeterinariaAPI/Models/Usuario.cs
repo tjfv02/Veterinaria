@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace VeterinariaAPI.Models;
 
@@ -7,7 +8,7 @@ public partial class Usuario
 {
     public int UsuarioId { get; set; }
 
-    public string Usuario1 { get; set; } = null!;
+    public string NombreUsuario { get; set; } = null!;
 
     public string Contraseña { get; set; } = null!;
 
@@ -17,7 +18,7 @@ public partial class Usuario
 
     public string Telefono { get; set; } = null!;
 
+    [EmailAddress]
     public string Email { get; set; } = null!;
 
-    public virtual ICollection<Mascota> Mascota { get; } = new List<Mascota>();
 }

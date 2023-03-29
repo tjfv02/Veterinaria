@@ -15,7 +15,5 @@ public partial class Mascota
 
     public int UsuarioId { get; set; }
 
-    public virtual ICollection<Cita> Cita { get; } = new List<Cita>();
-
     public virtual Usuario Usuario { get; set; } = null!;
 }

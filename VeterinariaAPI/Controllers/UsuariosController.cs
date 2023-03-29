@@ -11,55 +11,55 @@ namespace VeterinariaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class MascotumsController : ControllerBase
+    public class UsuariosController : ControllerBase
     {
         private readonly VeterinariaContext _context;
 
-        public MascotumsController(VeterinariaContext context)
+        public UsuariosController(VeterinariaContext context)
         {
             _context = context;
         }
 
-        // GET: api/Mascotums
+        // GET: api/Usuarios
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mascota>>> GetMascota()
+        public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
         {
-          if (_context.Mascota == null)
+          if (_context.Usuarios == null)
           {
               return NotFound();
           }
-            return await _context.Mascota.ToListAsync();
+            return await _context.Usuarios.ToListAsync();
         }
 
-        // GET: api/Mascotums/5
+        // GET: api/Usuarios/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Mascota>> GetMascotum(int id)
+        public async Task<ActionResult<Usuario>> GetUsuario(int id)
         {
-          if (_context.Mascota == null)
+          if (_context.Usuarios == null)
           {
               return NotFound();
           }
-            var mascotum = await _context.Mascota.FindAsync(id);
+            var usuario = await _context.Usuarios.FindAsync(id);
 
-            if (mascotum == null)
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            return mascotum;
+            return usuario;
         }
 
-        // PUT: api/Mascotums/5
+        // PUT: api/Usuarios/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMascotum(int id, Mascota mascotum)
+        public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
         {
-            if (id != mascotum.MascotaId)
+            if (id != usuario.UsuarioId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(mascotum).State = EntityState.Modified;
+            _context.Entry(usuario).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace VeterinariaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MascotumExists(id))
+                if (!UsuarioExists(id))
                 {
                     return NotFound();
                 }
@@ -80,23 +80,23 @@ namespace VeterinariaAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Mascotums
+        // POST: api/Usuarios
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Mascota>> PostMascotum(Mascota mascotum)
+        public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
         {
-          if (_context.Mascota == null)
+          if (_context.Usuarios == null)
           {
-              return Problem("Entity set 'VeterinariaContext.Mascota'  is null.");
+              return Problem("Entity set 'VeterinariaContext.Usuarios'  is null.");
           }
-            _context.Mascota.Add(mascotum);
+            _context.Usuarios.Add(usuario);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MascotumExists(mascotum.MascotaId))
+                if (UsuarioExists(usuario.UsuarioId))
                 {
                     return Conflict();
                 }
@@ -106,32 +106,32 @@ namespace VeterinariaAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMascotum", new { id = mascotum.MascotaId }, mascotum);
+            return CreatedAtAction("GetUsuario", new { id = usuario.UsuarioId }, usuario);
         }
 
-        // DELETE: api/Mascotums/5
+        // DELETE: api/Usuarios/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMascotum(int id)
+        public async Task<IActionResult> DeleteUsuario(int id)
         {
-            if (_context.Mascota == null)
+            if (_context.Usuarios == null)
             {
                 return NotFound();
             }
-            var mascotum = await _context.Mascota.FindAsync(id);
-            if (mascotum == null)
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            _context.Mascota.Remove(mascotum);
+            _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MascotumExists(int id)
+        private bool UsuarioExists(int id)
         {
-            return (_context.Mascota?.Any(e => e.MascotaId == id)).GetValueOrDefault();
+            return (_context.Usuarios?.Any(e => e.UsuarioId == id)).GetValueOrDefault();
         }
     }
 }

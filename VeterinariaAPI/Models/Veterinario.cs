@@ -12,6 +12,6 @@ public partial class Veterinario
     public string Apellido { get; set; } = null!;
 
     public int VeterinariaId { get; set; }
+    public Veterinaria Veterinaria { get; set; }
 
-    public virtual ICollection<Cita> Cita { get; } = new List<Cita>();
 }

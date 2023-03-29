@@ -48,10 +48,10 @@ public partial class VeterinariaContext : DbContext
             entity.Property(e => e.VeterinariaId).HasColumnName("VeterinariaID");
             entity.Property(e => e.VeterinarioId).HasColumnName("VeterinarioID");
 
-            entity.HasOne(d => d.Mascota).WithMany(p => p.Cita)
-                .HasForeignKey(d => d.MascotaId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Cita_fk0");
+            //entity.HasOne(d => d.Mascota).WithMany(p => p.Cita)
+            //    .HasForeignKey(d => d.MascotaId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("Cita_fk0");
 
             entity.HasOne(d => d.Veterinaria).WithMany(p => p.Cita)
                 .HasForeignKey(d => d.VeterinariaId)
@@ -76,10 +76,10 @@ public partial class VeterinariaContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Mascota)
-                .HasForeignKey(d => d.UsuarioId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Mascota_fk0");
+            //entity.HasOne(d => d.Usuario).WithMany(p => p.Mascota)
+            //    .HasForeignKey(d => d.UsuarioId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("Mascota_fk0");
         });
 
         modelBuilder.Entity<Medicamento>(entity =>
@@ -161,7 +161,7 @@ public partial class VeterinariaContext : DbContext
             entity.Property(e => e.Telefono)
                 .HasMaxLength(8)
                 .IsUnicode(false);
-            entity.Property(e => e.Usuario1)
+            entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(40)
                 .IsUnicode(false)
                 .HasColumnName("Usuario");
