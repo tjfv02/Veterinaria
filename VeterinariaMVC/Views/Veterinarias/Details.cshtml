@@ -3,8 +3,10 @@
 @{
     ViewData["Title"] = "Details";
 }
+<a asp-action="Index" class="btn btn-primary bi bi-arrow-left "> Regresar al Index</a>
 
-<h1>Details</h1>
+<h1 class="text-xl-center">Detalles</h1>
+
 
 <div>
     <h4>Veterinaria</h4>
@@ -31,6 +33,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.VeterinariaId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.VeterinariaId" class="btn btn-primary">Editar</a> |
 </div>

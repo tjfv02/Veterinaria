@@ -53,7 +53,7 @@ namespace VeterinariaMVC.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UsuarioId,Usuario1,Contraseña,Nombre,Apellido,Telefono,Email")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("UsuarioId,NombreUsuario,Contraseña,Nombre,Apellido,Telefono,Email")] Usuario usuario)
         {
             bool respuesta;
 
@@ -85,7 +85,7 @@ namespace VeterinariaMVC.Controllers
         // POST: Usuarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,Usuario1,Contraseña,Nombre,Apellido,Telefono,Email")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("UsuarioId,NombreUsuario,Contraseña,Nombre,Apellido,Telefono,Email")] Usuario usuario)
         {
             if (id != usuario.UsuarioId)
             {

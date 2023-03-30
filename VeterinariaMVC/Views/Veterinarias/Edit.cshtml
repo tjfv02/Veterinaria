@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<a asp-action="Index" class="btn btn-primary bi bi-arrow-left "> Regresar al Index</a>
 
-<h1>Edit</h1>
+<h1 class="text-center">Editar</h1>
 
 <h4>Veterinaria</h4>
 <hr />
@@ -13,30 +14,26 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="VeterinariaId" />
-            <div class="form-group">
-                <label asp-for="Ubicacion" class="control-label"></label>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="Ubicacion" class="control-label" ></label>
                 <input asp-for="Ubicacion" class="form-control" />
                 <span asp-validation-for="Ubicacion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 10px">
                 <label asp-for="Telefono" class="control-label"></label>
                 <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 10px">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group" style="margin-top: 10px">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
