@@ -13,4 +13,5 @@ public partial class Veterinaria
 
     public string Email { get; set; } = null!;
 
+    public string Nombre { get; set; } = null!;
 }

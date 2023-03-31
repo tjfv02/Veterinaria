@@ -53,7 +53,7 @@ namespace VeterinariaMVC.Controllers
         // POST: Veterinarias/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VeterinariaId,Ubicacion,Telefono,Email")] Veterinaria veterinaria)
+        public async Task<IActionResult> Create([Bind("VeterinariaId,Nombre,Ubicacion,Telefono,Email")] Veterinaria veterinaria)
         {
             bool respuesta;
             respuesta = await _veterinariaService.Save(veterinaria);
@@ -84,7 +84,7 @@ namespace VeterinariaMVC.Controllers
         // POST: Veterinarias/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VeterinariaId,Ubicacion,Telefono,Email")] Veterinaria veterinaria)
+        public async Task<IActionResult> Edit(int id, [Bind("VeterinariaId,Nombre,Ubicacion,Telefono,Email")] Veterinaria veterinaria)
         {
             if (id != veterinaria.VeterinariaId)
             {

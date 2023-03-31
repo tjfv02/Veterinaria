@@ -50,7 +50,7 @@ namespace VeterinariaMVC.Controllers
         public async Task<IActionResult> Create()
         {
             List<Veterinaria> ListaVeterinaria = await _veterinariaService.List();
-            ViewData["VeterinariaId"] = new SelectList(ListaVeterinaria, "VeterinariaId", "VeterinariaId");
+            ViewData["VeterinariaId"] = new SelectList(ListaVeterinaria, "VeterinariaId", "Nombre");
             return View();
         }
 
@@ -61,9 +61,8 @@ namespace VeterinariaMVC.Controllers
         {
             bool respuesta;
             List<Veterinaria> ListaVeterinaria = await _veterinariaService.List();
-
             respuesta = await _veterinarioService.Save(veterinario);
-            ViewData["VeterinariaId"] = new SelectList(ListaVeterinaria, "VeterinariaId", "VeterinariaId");
+            ViewData["VeterinariaId"] = new SelectList(ListaVeterinaria, "VeterinariaId", "Nombre");
 
             return View(veterinario);
         }

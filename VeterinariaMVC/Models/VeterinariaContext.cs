@@ -53,10 +53,10 @@ public partial class VeterinariaContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Cita_fk0");
 
-            entity.HasOne(d => d.Veterinaria).WithMany(p => p.Cita)
-                .HasForeignKey(d => d.VeterinariaId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Cita_fk1");
+            //entity.HasOne(d => d.Veterinaria).WithMany(p => p.Cita)
+            //    .HasForeignKey(d => d.VeterinariaId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("Cita_fk1");
 
             //entity.HasOne(d => d.Veterinario).WithMany(p => p.Cita)
             //    .HasForeignKey(d => d.VeterinarioId)
