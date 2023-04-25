@@ -11,5 +11,5 @@ public partial class RecetaMedicina
 
     public int MedicamentoId { get; set; }
 
-    public virtual Medicamento Medicamento { get; set; } = null!;
+    //public virtual Medicamento Medicamento { get; set; } = null!;
 }

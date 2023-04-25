@@ -11,5 +11,5 @@ public partial class Medicamento
 
     public string Farmaceutica { get; set; } = null!;
 
-    public virtual ICollection<RecetaMedicina> RecetaMedicinas { get; } = new List<RecetaMedicina>();
+    //public virtual ICollection<RecetaMedicina> RecetaMedicinas { get; } = new List<RecetaMedicina>();
 }

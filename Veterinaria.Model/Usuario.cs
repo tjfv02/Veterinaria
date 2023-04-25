@@ -20,7 +20,7 @@ public partial class Usuario
     [EmailAddress]
     public string Email { get; set; } = null!;
 
-    public virtual ICollection<Mascota> Mascota { get; } = new List<Mascota>();
+    //public virtual ICollection<Mascota> Mascota { get; } = new List<Mascota>();
 
     public string ConfirmarPassword { get; set; } = null!;
 }
