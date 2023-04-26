@@ -45,10 +45,16 @@ namespace VeterinariaMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(Usuario usuario)
+        public async Task<ActionResult> SignUp(Usuario usuario)
         {
+            await _authService.SignUp(usuario);
 
-            return View();
+            if (!_authService.Auth)
+            {
+                ViewData["Mensaje"] = _authService.Mensaje;
+                return View();
+            }
+            return RedirectToAction("SignIn", "Login");
         }
 
       

@@ -60,7 +60,7 @@ namespace VeterinariaMVC.Services.Auth
 
         }
 
-        public async Task<AuthResult?> SignUp(Usuario usuario)
+        public async Task SignUp(Usuario usuario)
         {
 
             AuthResult authResult =  new AuthResult() { Auth = false, Mensaje = "ERROR al Iniciar Sesión", Token = ""};
@@ -78,10 +78,9 @@ namespace VeterinariaMVC.Services.Auth
 
             if (response.IsSuccessStatusCode)
             {
-                authResult = result;
-                return authResult;
+                _auth = result.Auth;
+                _mensaje = result.Mensaje;
             }
-            return authResult;
 
         }
     }

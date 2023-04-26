@@ -103,7 +103,7 @@ namespace VeterinariaAPI.Controllers
                 mensaje = cmd.Parameters["Mensaje"].Value.ToString();
             }
 
-            return StatusCode(StatusCodes.Status200OK, new { Message = mensaje, Registrado = registrado });
+            return StatusCode(StatusCodes.Status200OK, new { Message = mensaje, Auth = registrado });
         }
 
         [HttpPost]
