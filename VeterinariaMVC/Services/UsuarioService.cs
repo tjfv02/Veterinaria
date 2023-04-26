@@ -1,20 +1,26 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Services.Auth;
 
 namespace VeterinariaMVC.Services
 {
     public class UsuarioService : IUsuarioService
     {
         private static string _baseUrl;
+        private static string _token;
 
         public static int timeout = 30;
 
-        public UsuarioService()
+        public UsuarioService(IAuthService authService)
         {
             //Obtener valores del App Settings
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             _baseUrl = builder.GetSection("ApiSettings:baseUrl").Value;
+
+            _token = authService.Token;
+
         }
 
 
@@ -25,6 +31,7 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
             var response = await client.GetAsync("Usuarios");
 
@@ -45,6 +52,7 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
             var response = await client.GetAsync("Usuarios/" + usuarioId);
 
@@ -68,6 +76,7 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
             var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
 
@@ -87,6 +96,7 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
             var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
 
@@ -106,6 +116,7 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
             var response = await client.DeleteAsync("Usuarios/" + usuarioId);
 

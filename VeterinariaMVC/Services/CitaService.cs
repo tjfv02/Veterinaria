@@ -1,19 +1,26 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Services.Auth;
 
 namespace VeterinariaMVC.Services
 {
     public class CitaService : ICitaService
     {
         private static string _baseUrl;
+        private static string _token;
+
 
         public static int timeout = 30;
-        public CitaService()
+        public CitaService(IAuthService authService)
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             _baseUrl = builder.GetSection("ApiSettings:baseUrl").Value;
+
+            _token = authService.Token;
+
         }
         public async Task<bool> Delete(int citaId)
         {
@@ -22,6 +29,8 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
 
             var response = await client.DeleteAsync("Citas/" + citaId);
 
@@ -39,6 +48,8 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
 
             var content = new StringContent(JsonConvert.SerializeObject(cita), Encoding.UTF8, "application/json");
 
@@ -56,6 +67,8 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
 
             var response = await client.GetAsync("Citas/" + citaId);
 
@@ -79,6 +92,8 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
 
             var response = await client.GetAsync("Citas");
 
@@ -99,6 +114,8 @@ namespace VeterinariaMVC.Services
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(timeout);
             client.BaseAddress = new Uri(_baseUrl);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
 
             var content = new StringContent(JsonConvert.SerializeObject(cita), Encoding.UTF8, "application/json");
 

@@ -27,6 +27,8 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
         ValidateIssuer = false,
         ValidateAudience = false,
+        //ValidIssuer = builder.Configuration.GetSection("JWT").GetSection("Issuer").ToString(),
+        //ValidAudience = builder.Configuration.GetSection("JWT").GetSection("Audience").ToString()
     };
 });
 

@@ -1,4 +1,7 @@
-﻿@{
+﻿@model VeterinariaMVC.Models.Usuario
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -39,7 +42,7 @@
 <!--/.Navbar-->
 
 <div class="text-center">
-    <h1 class="display-4">Bienvenido USUARIO!</h1>
+    <h1 class="display-4">Bienvenido @Html.DisplayFor(model => model.Nombre)!</h1>
     <p></p>
 </div>
 

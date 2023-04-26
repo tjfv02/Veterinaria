@@ -1,21 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUsuarioService _usuarioService;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, IUsuarioService usuarioService)
         {
             _logger = logger;
+            _usuarioService = usuarioService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var usuario = HttpContext.Session.GetString("Usuario");
+            List<Usuario> ListaUsuarios = await _usuarioService.List();
+
+            var usuarioBuscado = ListaUsuarios.FirstOrDefault(u => u.Email == usuario);
+
+            return View(usuarioBuscado);
         }
 
         public IActionResult Privacy()

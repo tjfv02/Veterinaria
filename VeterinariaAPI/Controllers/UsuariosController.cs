@@ -17,7 +17,7 @@ namespace VeterinariaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UsuariosController : ControllerBase
     {
         private readonly VeterinariaContext _context;
