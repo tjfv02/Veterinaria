@@ -10,6 +10,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Veterinaria.Model;
 using System.Data.SqlClient;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace VeterinariaAPI.Controllers
 {
@@ -228,6 +230,104 @@ namespace VeterinariaAPI.Controllers
 
 
 
+        }
+
+        [HttpPost]
+        [Route("SignUp")]
+        public IActionResult SignUp([FromBody] Usuario usuario)
+        {
+            bool registrado;
+            string mensaje;
+
+            var nuevoUsuario = new Usuario
+            {
+                NombreUsuario = usuario.NombreUsuario,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Telefono = usuario.Telefono,
+                Contraseña = usuario.Contraseña,
+                Email = usuario.Email,
+            };
+
+            if (nuevoUsuario.Contraseña != usuario.ConfirmarPassword)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, new { Message = "Las contraseñas no coinciden" });
+
+            }
+
+            nuevoUsuario.Contraseña = EncryptPassword(nuevoUsuario.Contraseña);
+
+            using (SqlConnection cn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_RegistrarUsuario", cn);
+                cmd.Parameters.AddWithValue("NombreUsuario", nuevoUsuario.NombreUsuario);
+                cmd.Parameters.AddWithValue("Nombre", nuevoUsuario.Nombre);
+                cmd.Parameters.AddWithValue("Apellido", nuevoUsuario.Apellido);
+                cmd.Parameters.AddWithValue("Telefono", nuevoUsuario.Telefono);
+                cmd.Parameters.AddWithValue("Email", nuevoUsuario.Email);
+                cmd.Parameters.AddWithValue("Contraseña", nuevoUsuario.Contraseña);
+                cmd.Parameters.Add("Registrado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cn.Open();
+
+                cmd.ExecuteNonQuery();
+
+                registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value);
+                mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+            }
+
+            return StatusCode(StatusCodes.Status200OK, new { Message = mensaje, Registrado = registrado });
+        }
+
+        [HttpPost]
+        [Route("SignIn")]
+        public IActionResult SignIn([FromBody] Usuario usuario)
+        {
+            bool Login = false;
+            usuario.Contraseña = EncryptPassword(usuario.Contraseña);
+
+            using (SqlConnection cn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_ValidarUsuario", cn);
+                cmd.Parameters.AddWithValue("Email", usuario.Email);
+                cmd.Parameters.AddWithValue("Password", usuario.Contraseña);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cn.Open();
+
+                usuario.UsuarioId = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+
+            }
+
+            if (usuario.UsuarioId != 0)
+            {
+                Login = true;
+                var nuevoUsuario = GetUsuario(usuario.UsuarioId);
+                return StatusCode(StatusCodes.Status200OK, new { Message = "SignIn Exitoso", Login = Login , Usuario = nuevoUsuario.Result.Value });
+
+            }
+
+            return StatusCode(StatusCodes.Status401Unauthorized, new { Message = "Correo o Contraseña Incorectos", Login = Login });
+            
+        }
+
+        public static string EncryptPassword(string password)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            using (SHA256 hash = SHA256.Create())
+            {
+                Encoding encoding = Encoding.UTF8;
+                byte[] result = hash.ComputeHash(encoding.GetBytes(password));
+
+                foreach (byte b in result)
+                {
+                    stringBuilder.Append(b.ToString("x2"));
+                }
+            }
+
+            return stringBuilder.ToString();
         }
 
         private bool UsuarioExists(int id)
