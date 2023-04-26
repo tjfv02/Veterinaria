@@ -5,7 +5,7 @@ namespace VeterinariaMVC.Models;
 
 public partial class Mascota
 {
-    public int Id { get; set; }
+    public int MascotaId { get; set; }
 
     public string Nombre { get; set; } = null!;
 

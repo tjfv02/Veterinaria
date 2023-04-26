@@ -15,9 +15,9 @@ public partial class Cita
 
     public int VeterinarioId { get; set; }
 
-    public virtual Mascota Mascota { get; set; } = null!;
+    //public virtual Mascota Mascota { get; set; } = null!;
 
-    public virtual Veterinaria Veterinaria { get; set; } = null!;
+    //public virtual Veterinaria Veterinaria { get; set; } = null!;
 
-    public virtual Veterinario Veterinario { get; set; } = null!;
+    //public virtual Veterinario Veterinario { get; set; } = null!;
 }

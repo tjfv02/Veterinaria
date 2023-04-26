@@ -60,9 +60,9 @@ namespace VeterinariaMVC
 
             modelBuilder.Entity<Mascota>(entity =>
             {
-                entity.HasKey(e => e.Id).HasName("PK_MASCOTA");
+                entity.HasKey(e => e.MascotaId).HasName("PK_MASCOTA");
 
-                entity.Property(e => e.Id)
+                entity.Property(e => e.MascotaId)
                     .ValueGeneratedNever()
                     .HasColumnName("MascotaID");
                 entity.Property(e => e.Nombre)

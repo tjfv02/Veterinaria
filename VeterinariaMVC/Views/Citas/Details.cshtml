@@ -1,0 +1,46 @@
+﻿@model VeterinariaMVC.Models.Cita
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <a asp-action="Index" class="btn btn-primary bi bi-arrow-left "> Regresar al Index</a>
+    <h1 class="text-xl-center">Detalles</h1>
+
+</div>
+
+
+<div>
+    <h4>Cita</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Paciente
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MascotaId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt class="col-sm-2">
+            Veterinaria
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VeterinariaId)
+        </dd>
+        <dt class="col-sm-2">
+            Veterinario
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VeterinarioId)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Editar</a>
+</div>

@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
 //builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICitaService, CitaService>();
 builder.Services.AddScoped<IMascotaService, MascotaService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IVeterinarioService, VeterinarioService>();

@@ -8,8 +8,6 @@ namespace VeterinariaMVC.Services
     public class MascotaService : IMascotaService
     {
         private static string _baseUrl;
-        private static string _user;
-        private static string _key;
 
         public static int timeout = 30;
 
@@ -18,8 +16,6 @@ namespace VeterinariaMVC.Services
             //Obtener valores del App Settings
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             _baseUrl = builder.GetSection("ApiSettings:baseUrl").Value;
-            _user = builder.GetSection("ApiSettings:user").Value;
-            _key = builder.GetSection("ApiSettings:key").Value;
         }
 
         //Autenticación futura

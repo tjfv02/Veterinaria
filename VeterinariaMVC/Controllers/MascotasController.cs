@@ -91,27 +91,27 @@ namespace VeterinariaMVC.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("MascotaId,Nombre,Edad,Peso,UsuarioId")] Mascota mascota)
         {
             List<Usuario> ListaUsuarios = await _usuarioService.List();
-            if (id != mascota.Id)
+            if (id != mascota.MascotaId)
             {
                 return NotFound();
             }
 
-                try
-                {
-                    var result = await _mascotaService.Edit(mascota);
+            try
+            {
+                var result = await _mascotaService.Edit(mascota);
 
-                }
-                catch (DbUpdateConcurrencyException)
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MascotaExists(mascota.MascotaId))
                 {
-                    if (!MascotaExists(mascota.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
+                else
+                {
+                    throw;
+                }
+            }
 
             ViewData["UsuarioId"] = new SelectList(ListaUsuarios, "UsuarioId", "UsuarioId", mascota.UsuarioId);
             return View(mascota);
@@ -120,7 +120,7 @@ namespace VeterinariaMVC.Controllers
         // GET: Mascotas/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            if (id == null )
+            if (id == null)
             {
                 return NotFound();
             }

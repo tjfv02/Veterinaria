@@ -1,0 +1,47 @@
+﻿@model VeterinariaMVC.Models.Cita
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<a asp-action="Index" class="btn btn-primary bi bi-arrow-left "> Regresar al Index</a>
+
+<h1 class="text-center">Programar Cita</h1>
+
+<h4 class="text-center">Agrega los datos de para la cita:</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="Fecha" class="control-label"></label>
+                <input asp-for="Fecha" class="form-control" />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="MascotaId" class="control-label">Paciente</label>
+                <select asp-for="MascotaId" class="form-control" asp-items="ViewBag.MascotaId"></select>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="VeterinariaId" class="control-label">Veterinaria</label>
+                <select asp-for="VeterinariaId" class="form-control" asp-items="ViewBag.VeterinariaId"></select>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <label asp-for="VeterinarioId" class="control-label">Veterinario</label>
+                <select asp-for="VeterinarioId" class="form-control" asp-items="ViewBag.VeterinarioId"></select>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <input type="submit" value="Agregar Datos de Mascota" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

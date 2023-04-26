@@ -1,0 +1,56 @@
+﻿@model IEnumerable<VeterinariaMVC.Models.Cita>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">Citas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-warning">Agregar Cita</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MascotaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VeterinariaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VeterinarioId)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MascotaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VeterinariaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VeterinarioId)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CitaId" class="btn btn-success">Reprogramar | Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.CitaId" class="btn btn-primary">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CitaId" class="btn btn-danger">Cancelar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
