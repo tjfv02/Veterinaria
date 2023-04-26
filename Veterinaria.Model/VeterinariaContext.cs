@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Veterinaria.Model;
 
@@ -31,9 +29,9 @@ public partial class VeterinariaContext : DbContext
 
     public virtual DbSet<Veterinaria> Veterinaria { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=.;Database=Veterinaria; Integrated Security=True;TrustServerCertificate=True");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Server=.;Database=Veterinaria; Integrated Security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -42,7 +40,7 @@ public partial class VeterinariaContext : DbContext
             entity.HasKey(e => e.CitaId).HasName("PK_CITA");
 
             entity.Property(e => e.CitaId)
-                .ValueGeneratedNever()
+                //.ValueGeneratedNever()
                 .HasColumnName("CitaID");
             entity.Property(e => e.Fecha).HasColumnType("datetime");
             entity.Property(e => e.MascotaId).HasColumnName("MascotaID");
@@ -67,10 +65,10 @@ public partial class VeterinariaContext : DbContext
 
         modelBuilder.Entity<Mascota>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_MASCOTA");
+            entity.HasKey(e => e.MascotaId).HasName("PK_MASCOTA");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+            entity.Property(e => e.MascotaId)
+                //.ValueGeneratedNever()
                 .HasColumnName("MascotaID");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(40)
@@ -175,7 +173,7 @@ public partial class VeterinariaContext : DbContext
             entity.ToTable("Veterinario");
 
             entity.Property(e => e.VeterinarioId)
-                .ValueGeneratedNever()
+                //.ValueGeneratedNever()
                 .HasColumnName("VeterinarioID");
             entity.Property(e => e.Apellido)
                 .HasMaxLength(40)
@@ -191,7 +189,7 @@ public partial class VeterinariaContext : DbContext
             entity.HasKey(e => e.VeterinariaId).HasName("PK_VETERINARIA");
 
             entity.Property(e => e.VeterinariaId)
-                .ValueGeneratedNever()
+                //.ValueGeneratedNever()
                 .HasColumnName("VeterinariaID");
             entity.Property(e => e.Email)
                 .HasMaxLength(40)

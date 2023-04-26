@@ -33,8 +33,8 @@ namespace VeterinariaAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Validation")]
-        public string Validation(Usuario request)
+        [Route("GenerarToken")]
+        public string GenerarToken(Usuario request)
         {
             var keyBytes = Encoding.ASCII.GetBytes(SecretKey);
             var claims = new ClaimsIdentity();
@@ -130,13 +130,13 @@ namespace VeterinariaAPI.Controllers
             {
                 Login = true;
                 var nuevoUsuario = GetUsuario(usuario.UsuarioId);
-                var token = Validation(nuevoUsuario.Result.Value);
+                var token = GenerarToken(nuevoUsuario.Result.Value);
 
-                return StatusCode(StatusCodes.Status200OK, new { Message = "SignIn Exitoso", Login = Login, Token = token });
+                return StatusCode(StatusCodes.Status200OK, new { Message = "SignIn Exitoso", Auth = Login, Token = token });
 
             }
 
-            return StatusCode(StatusCodes.Status401Unauthorized, new { Message = "Correo o Contraseña Incorectos", Login = Login });
+            return StatusCode(StatusCodes.Status401Unauthorized, new { Message = "Correo o Contraseña Incorectos", Auth = Login });
 
         }
 

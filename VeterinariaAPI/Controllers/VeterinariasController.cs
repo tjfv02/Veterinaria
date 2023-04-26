@@ -24,7 +24,7 @@ namespace VeterinariaAPI.Controllers
 
         // GET: api/Veterinarias
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Veterinaria.Model.Veterinaria>>> GetVeterinaria()
+        public async Task<ActionResult<IEnumerable<Veterinaria.Model.Veterinaria>>> GetVeterinarias()
         {
           if (_context.Veterinaria == null)
           {
