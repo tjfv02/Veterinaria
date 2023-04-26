@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using VeterinariaAPI.Models;
+using Veterinaria.Model;
+using System.Data.SqlClient;
 
 namespace VeterinariaAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UsuariosController : ControllerBase
     {
         private readonly VeterinariaContext _context;
+        private readonly string ConnectionString;
 
-        public UsuariosController(VeterinariaContext context)
+
+        public UsuariosController(VeterinariaContext context, IConfiguration config)
         {
             _context = context;
+            
+            ConnectionString = config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
         }
 
         // GET: api/Usuarios
@@ -30,7 +37,19 @@ namespace VeterinariaAPI.Controllers
           {
               return NotFound();
           }
-            return await _context.Usuarios.ToListAsync();
+            var usuarios = await _context.Usuarios
+                .Select(u => new Usuario
+                {
+                    UsuarioId = u.UsuarioId,
+                    NombreUsuario = u.NombreUsuario,
+                    Contraseña = u.Contraseña,
+                    Nombre = u.Nombre,
+                    Apellido = u.Apellido,
+                    Telefono = u.Telefono,
+                    Email = u.Email
+                })
+                .ToListAsync();
+            return usuarios;
         }
 
         // GET: api/Usuarios/5
@@ -41,7 +60,20 @@ namespace VeterinariaAPI.Controllers
           {
               return NotFound();
           }
-            var usuario = await _context.Usuarios.FindAsync(id);
+            var usuario = await _context.Usuarios
+                .Where(u => u.UsuarioId == id)
+                .Select(u => new Usuario
+                {
+                    UsuarioId = u.UsuarioId,
+                    NombreUsuario = u.NombreUsuario,
+                    Contraseña = u.Contraseña,
+                    Nombre = u.Nombre,
+                    Apellido = u.Apellido,
+                    Telefono = u.Telefono,
+                    Email = u.Email
+                })
+                .FirstOrDefaultAsync();
+
 
             if (usuario == null)
             {
@@ -61,7 +93,34 @@ namespace VeterinariaAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(usuario).State = EntityState.Modified;
+            var usuarioExistente = await _context.Usuarios
+                .Where(u => u.UsuarioId == id)
+                .Select(u => new Usuario
+                {
+                    UsuarioId = u.UsuarioId,
+                    NombreUsuario = u.NombreUsuario,
+                    Contraseña = u.Contraseña,
+                    Nombre = u.Nombre,
+                    Apellido = u.Apellido,
+                    Telefono = u.Telefono,
+                    Email = u.Email
+                })
+                .FirstOrDefaultAsync();
+
+            if (usuarioExistente == null)
+            {
+                return NotFound();
+            }
+
+            // Actualizar los campos del usuario existente
+            usuarioExistente.NombreUsuario = usuario.NombreUsuario;
+            usuarioExistente.Contraseña = usuario.Contraseña;
+            usuarioExistente.Nombre = usuario.Nombre;
+            usuarioExistente.Apellido = usuario.Apellido;
+            usuarioExistente.Telefono = usuario.Telefono;
+            usuarioExistente.Email = usuario.Email;
+
+            _context.Entry(usuarioExistente).State = EntityState.Modified;
 
             try
             {
@@ -91,7 +150,17 @@ namespace VeterinariaAPI.Controllers
           {
               return Problem("Entity set 'VeterinariaContext.Usuarios'  is null.");
           }
-            _context.Usuarios.Add(usuario);
+            var nuevoUsuario = new Usuario
+            {
+                NombreUsuario = usuario.NombreUsuario,
+                Contraseña = usuario.Contraseña,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Telefono = usuario.Telefono,
+                Email = usuario.Email
+            };
+
+            _context.Usuarios.Add(nuevoUsuario);
             try
             {
                 await _context.SaveChangesAsync();
@@ -129,6 +198,36 @@ namespace VeterinariaAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpPost]
+        [Route("RegistrarUsuario")]
+        public IActionResult RegistrarUsuario([FromBody] Usuario usuario)
+        {
+            bool registrado;
+            string mensaje;
+
+            using (SqlConnection cn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SP_RegistrarUsuario", cn);
+                cmd.Parameters.AddWithValue("Email", usuario.Email);
+                cmd.Parameters.AddWithValue("Password", usuario.Contraseña);
+                cmd.Parameters.Add("Registrado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cn.Open();
+
+                cmd.ExecuteNonQuery();
+
+                registrado = Convert.ToBoolean(cmd.Parameters["Registrado"].Value);
+                mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+            }
+
+            return StatusCode(StatusCodes.Status200OK, new { Message = mensaje, Registrado = registrado });
+
+
+
         }
 
         private bool UsuarioExists(int id)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VeterinariaAPI.Models;
+using Veterinaria.Model;
 
 namespace VeterinariaAPI.Controllers
 {

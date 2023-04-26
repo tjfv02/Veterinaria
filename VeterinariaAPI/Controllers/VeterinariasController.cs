@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VeterinariaAPI.Models;
+using Veterinaria.Model;
 
 namespace VeterinariaAPI.Controllers
 {
@@ -24,7 +24,7 @@ namespace VeterinariaAPI.Controllers
 
         // GET: api/Veterinarias
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Veterinaria>>> GetVeterinaria()
+        public async Task<ActionResult<IEnumerable<Veterinaria.Model.Veterinaria>>> GetVeterinaria()
         {
           if (_context.Veterinaria == null)
           {
@@ -35,7 +35,7 @@ namespace VeterinariaAPI.Controllers
 
         // GET: api/Veterinarias/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Veterinaria>> GetVeterinaria(int id)
+        public async Task<ActionResult<Veterinaria.Model.Veterinaria>> GetVeterinaria(int id)
         {
           if (_context.Veterinaria == null)
           {
@@ -54,7 +54,7 @@ namespace VeterinariaAPI.Controllers
         // PUT: api/Veterinarias/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVeterinaria(int id, Veterinaria veterinaria)
+        public async Task<IActionResult> PutVeterinaria(int id, Veterinaria.Model.Veterinaria veterinaria)
         {
             if (id != veterinaria.VeterinariaId)
             {
@@ -85,7 +85,7 @@ namespace VeterinariaAPI.Controllers
         // POST: api/Veterinarias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Veterinaria>> PostVeterinaria(Veterinaria veterinaria)
+        public async Task<ActionResult<Veterinaria.Model.Veterinaria>> PostVeterinaria(Veterinaria.Model.Veterinaria veterinaria)
         {
           if (_context.Veterinaria == null)
           {

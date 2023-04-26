@@ -28,16 +28,9 @@ namespace VeterinariaMVC.Controllers
         [HttpPost]
         public ActionResult SignUp(Usuario usuario)
         {
-            bool registrado;
-            string mensaje;
+            usuario.Contraseña = EncryptPassword(usuario.Contraseña);
 
-            //if (usuario.Password != usuario.ConfirmarPassword)
-            //{
-            //    ViewData["Mensaje"] = "Las contraseñas no coinciden";
-            //    return View();
-            //}
-
-            //usuario.Password = EncryptPassword(usuario.Password);
+        
 
             return View();
         }

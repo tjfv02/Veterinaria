@@ -10,7 +10,7 @@ public partial class Usuario
 
     public string NombreUsuario { get; set; } = null!;
 
-    public string Password { get; set; } = null!;
+    public string Contraseña { get; set; } = null!;
 
     public string? Nombre { get; set; }
 
@@ -22,5 +22,5 @@ public partial class Usuario
 
     //public virtual ICollection<Mascota> Mascota { get; } = new List<Mascota>();
 
-    public string ConfirmarPassword { get; set; } = null!;
+    public string? ConfirmarPassword { get; set; }
 }

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VeterinariaAPI.Models;
+using Veterinaria.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;

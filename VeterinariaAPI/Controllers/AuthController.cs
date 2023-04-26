@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using VeterinariaAPI.Models;
 using System.Text;
+using Veterinaria.Model;
 
 namespace VeterinariaAPI.Controllers
 {
