@@ -12,6 +12,7 @@ namespace VeterinariaMVC.Controllers
     public class LoginController : Controller
     {
         private readonly IAuthService _authService;
+        private bool signUp = false;
 
         public LoginController(IAuthService authService)
         {
@@ -20,6 +21,8 @@ namespace VeterinariaMVC.Controllers
 
         public ActionResult SignIn()
         {
+            ViewBag.SignUp = signUp;
+            ViewBag.Error = false;
 
             return View();
         }
@@ -27,11 +30,18 @@ namespace VeterinariaMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> SignIn(Usuario usuario)
         {
+            if (usuario.Email == null || usuario.Contraseña == null)
+            {
+                ViewData["Mensaje"] = "Tienes que Ingresar los datos para poder Iniciar Sesión";
+                ViewBag.Error = true;
+                return View();
+            }
             await _authService.SignIn(usuario);
 
             if (!_authService.Auth)
             {
-                ViewData["Mensaje"] = _authService.Mensaje;
+                ViewData["Mensaje"] = "Correo o Contraseña Incorrectos";
+                ViewBag.Error = true;
                 return View();
             }
             HttpContext.Session.SetString("Usuario", usuario.Email);
@@ -41,6 +51,9 @@ namespace VeterinariaMVC.Controllers
 
         public ActionResult SignUp()
         {
+            ViewBag.Error = false;
+            ViewBag.SignUp = signUp;
+
             return View();
         }
 
@@ -53,10 +66,17 @@ namespace VeterinariaMVC.Controllers
                 Email = usuario.Email,
                 ConfirmarPassword = usuario.ConfirmarPassword
             };
+            if (usuario.NombreUsuario == null || usuario.Nombre == null || usuario.Apellido == null || usuario.Email == null || usuario.Contraseña == null)
+            {
+                ViewData["Mensaje"] = "Tienes que ingresar todos los datos necesarios para hacer el registro";
+                ViewBag.Error = true;
+                return View();
+            }
 
             if (nuevoUsuario.Contraseña != usuario.ConfirmarPassword)
             {
                 ViewData["Mensaje"] = "Las Contraseñas no Coinciden";
+                ViewBag.Error = true;
                 return View();
 
             }
@@ -64,11 +84,15 @@ namespace VeterinariaMVC.Controllers
 
             if (!_authService.Auth)
             {
-                ViewData["Mensaje"] = "ERROR Datos Inválidos";
+                ViewBag.Error = true;
+                ViewData["Mensaje"] = "Ya existe un Usuario con ese correo  ";
                 return View();
             }
-            ViewData["Mensaje"] = "Usuario creado con Éxito";
+            
 
+            ViewData["Mensaje"] = "Usuario creado con Éxito";
+            signUp = true;
+            ViewBag.SignUp = signUp;
             return RedirectToAction("SignIn", "Login");
         }
 

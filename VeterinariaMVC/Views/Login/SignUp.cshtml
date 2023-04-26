@@ -18,6 +18,13 @@
                     <div class="myform form ">
                         <div class="logo mb-3">
                             <div class="col-md-12 text-center" style="margin-top: 40px">
+                                @if (ViewBag.Error)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewData["Mensaje"]
+                                    </div>
+                                }
+                                
                                 <h1>Crear Cuenta</h1>
                             </div>
                         </div>
