@@ -76,7 +76,7 @@ namespace VeterinariaAPI.Controllers
 
             if (nuevoUsuario.Contraseña != usuario.ConfirmarPassword)
             {
-                return StatusCode(StatusCodes.Status401Unauthorized, new { Message = "Las contraseñas no coinciden" });
+                return StatusCode(StatusCodes.Status200OK, new { Message = "Las contraseñas no coinciden", Auth = false });
 
             }
 

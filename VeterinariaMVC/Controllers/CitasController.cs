@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Permisos;
 using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
+    [ValidarSesion]
     public class CitasController : Controller
     {
         private readonly ICitaService _citaService;

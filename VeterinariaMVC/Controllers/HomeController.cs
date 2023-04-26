@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Permisos;
 using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
+    [ValidarSesion]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -31,6 +33,12 @@ namespace VeterinariaMVC.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.SetString("Usuario",null);
+
+            return RedirectToAction("SignIn", "Login");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -47,13 +47,28 @@ namespace VeterinariaMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> SignUp(Usuario usuario)
         {
+            var nuevoUsuario = new Usuario
+            {
+                Contraseña = usuario.Contraseña,
+                Email = usuario.Email,
+                ConfirmarPassword = usuario.ConfirmarPassword
+            };
+
+            if (nuevoUsuario.Contraseña != usuario.ConfirmarPassword)
+            {
+                ViewData["Mensaje"] = "Las Contraseñas no Coinciden";
+                return View();
+
+            }
             await _authService.SignUp(usuario);
 
             if (!_authService.Auth)
             {
-                ViewData["Mensaje"] = _authService.Mensaje;
+                ViewData["Mensaje"] = "ERROR Datos Inválidos";
                 return View();
             }
+            ViewData["Mensaje"] = "Usuario creado con Éxito";
+
             return RedirectToAction("SignIn", "Login");
         }
 

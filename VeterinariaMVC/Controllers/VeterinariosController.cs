@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaMVC;
 using VeterinariaMVC.Models;
+using VeterinariaMVC.Permisos;
 using VeterinariaMVC.Services;
 
 namespace VeterinariaMVC.Controllers
 {
+    [ValidarSesion]
     public class VeterinariosController : Controller
     {
         private readonly IVeterinarioService _veterinarioService;
