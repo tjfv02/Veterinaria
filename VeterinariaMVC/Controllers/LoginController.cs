@@ -12,7 +12,6 @@ namespace VeterinariaMVC.Controllers
     public class LoginController : Controller
     {
         private readonly IAuthService _authService;
-        private bool signUp = false;
 
         public LoginController(IAuthService authService)
         {
@@ -21,7 +20,6 @@ namespace VeterinariaMVC.Controllers
 
         public ActionResult SignIn()
         {
-            ViewBag.SignUp = signUp;
             ViewBag.Error = false;
 
             return View();
@@ -52,7 +50,6 @@ namespace VeterinariaMVC.Controllers
         public ActionResult SignUp()
         {
             ViewBag.Error = false;
-            ViewBag.SignUp = signUp;
 
             return View();
         }
@@ -91,8 +88,6 @@ namespace VeterinariaMVC.Controllers
             
 
             ViewData["Mensaje"] = "Usuario creado con Éxito";
-            signUp = true;
-            ViewBag.SignUp = signUp;
             return RedirectToAction("SignIn", "Login");
         }
 
