@@ -36,7 +36,7 @@ namespace VeterinariaMVC.Controllers
         }
         public IActionResult LogOut()
         {
-            HttpContext.Session.SetString("Usuario",null);
+            HttpContext.Session.SetString("Usuario","");
 
             return RedirectToAction("SignIn", "Login");
         }

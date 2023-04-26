@@ -10,7 +10,7 @@ namespace VeterinariaMVC.Permisos
 
             var httpContext = context.HttpContext; // Obtener la instancia del objeto HttpContext
 
-            if (httpContext.Session.GetString("Usuario") == null)
+            if (httpContext.Session.GetString("Usuario") == "")
             {
                 context.Result = new RedirectResult("~/Login/SignIn");
             }

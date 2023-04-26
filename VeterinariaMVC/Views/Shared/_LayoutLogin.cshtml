@@ -29,47 +29,14 @@
     <header>
 
         <!-- Navbar Dark -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3" style="margin-bottom:100px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark z-index-3 py-3">
             <div class="container">
-                <a class="nav-link text-white opacity-8" asp-area="" asp-controller="Home" asp-action="Index">
-                    Inicio
+                <a class="nav-link text-white opacity-8" asp-area="">
+                    Veterinaria
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navigation">
-                    <ul class="navbar-nav navbar-nav-hover mx-auto">
-                        <li class="nav-item px-3">
-                            <a class="nav-link text-white opacity-8" asp-area="" asp-controller="Usuarios" asp-action="Index">
-                                Usuarios
-                            </a>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <a class="nav-link text-white opacity-8" asp-area="" asp-controller="Mascotas" asp-action="Index">
-                                Mascotas
-                            </a>
-                        </li>
-
-                        <li class="nav-item px-3">
-                            <a class="nav-link text-white opacity-8" asp-area="" asp-controller="Veterinarias" asp-action="Index">
-                                Veterinarias
-                            </a>
-                        </li>
-                        <li class="nav-item px-3">
-                            <a class="nav-link text-white opacity-8" asp-area="" asp-controller="Veterinarios" asp-action="Index">
-                                Veterinarios
-                            </a>
-                        </li>
-
-                    </ul>
-
-                    <ul class="navbar-nav ms-auto">
-                        <a class="btn bg-gradient-primary mb-0" asp-area="" asp-controller="Home" asp-action="LogOut">
-                            Cerrar Sesión
-                        </a>
-                    </ul>
-                </div>
             </div>
         </nav>
         <!-- End Navbar -->
@@ -80,7 +47,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="margin-top:50px">
         <div class="container">
             &copy; 2023 - VeterinariaMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

@@ -2,47 +2,80 @@
 
 
 @{
+    Layout = "_LayoutHome";
     ViewData["Title"] = "Home Page";
 }
 
-<!--Navbar-->
-<nav class="navbar navbar-light purple lighten-4 mb-4">
 
-    <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">Navbar</a>
-
-    <!-- Collapse button -->
-    <button class="navbar-toggler toggler-example purple darken-3" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent41" aria-controls="navbarSupportedContent41" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="white-text"><i class="fas fa-bars fa-1x"></i></span>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent41">
-
-        <!-- Links -->
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-            </li>
-        </ul>
-        <!-- Links -->
-
-    </div>
-    <!-- Collapsible content -->
-
-</nav>
-<!--/.Navbar-->
-
-<div class="text-center">
-    <h1 class="display-4">Bienvenido @Html.DisplayFor(model => model.Nombre)!</h1>
-    <p></p>
+<div class="text-center" style="margin-top: 40px">
+    <h1 class="display-4">Hola @Html.DisplayFor(model => model.Nombre)!</h1>
 </div>
+
+
+<div class="container" style="margin-top: 100px">
+
+    <p class="lead">
+        Selecciona una de las siguientes opciones para navegar:
+    </p>
+    <div class="row">
+        <div class="col">
+            <div class="card" data-animation="true">
+                <div class="card-body text-center">
+
+                    <h5 class="font-weight-normal mt-3">
+                        <a href="javascript:;">Mascotas</a>
+                    </h5>
+                    <p class="mb-0">
+                        Accede aqui para poder ver los detalles de tus mascotas, inscribir una nueva o eliminar la suscripción.
+                    </p>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer d-flex">
+                    <a class="btn bg-gradient-primary mb-0" asp-area="" asp-controller="Mascotas" asp-action="Index">
+                        Mascotas
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" data-animation="true">
+                <div class="card-body text-center">
+
+                    <h5 class="font-weight-normal mt-3">
+                        <a href="javascript:;">Citas</a>
+                    </h5>
+                    <p class="mb-0">
+                        Accede aqui para poder ver los detalles de tus Citas de tus mascotas | Programar una Cita o Cancelarla.
+                    </p>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer d-flex">
+                    <a class="btn bg-gradient-success mb-0" asp-area="" asp-controller="Mascotas" asp-action="Index">
+                        Citas
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" data-animation="true">
+                <div class="card-body text-center">
+
+                    <h5 class="font-weight-normal mt-3">
+                        <a href="javascript:;">Veterinarias</a>
+                    </h5>
+                    <p class="mb-0">
+                        Accede aqui para poder ver qué Veterinarias están disponibles, tambien puedes ver la información de contacto.
+                    </p>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer d-flex">
+                    <a class="btn bg-gradient-info mb-0" asp-area="" asp-controller="Mascotas" asp-action="Index">
+                        Citas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
