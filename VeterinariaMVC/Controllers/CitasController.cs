@@ -26,6 +26,7 @@ namespace VeterinariaMVC.Controllers
         public async Task<IActionResult> Index()
         {
             List<Cita> Lista = await _citaService.List();
+
             return View(Lista);
         }
 
